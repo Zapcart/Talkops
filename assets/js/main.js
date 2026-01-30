@@ -157,12 +157,45 @@
     });
   }
 
+  function initWebsiteBuildForm() {
+    const form = qs("#website-build-form");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const businessType = safe(qs('[name="wb_businessType"]', form)?.value);
+      const purpose = safe(qs('[name="wb_purpose"]', form)?.value);
+      const whatsapp = safe(qs('[name="wb_whatsapp"]', form)?.value);
+      const reference = safe(qs('[name="wb_reference"]', form)?.value);
+
+      if (!businessType || !purpose || !whatsapp) return;
+
+      const lines = [
+        "Hello, I want to build a premium website with TalkOps.",
+        "",
+        "Module: Premium Website Building Service (MOST DEMANDED)",
+        "",
+        "Website project details:",
+        `Business type: ${businessType}`,
+        `Website purpose: ${purpose}`,
+        `WhatsApp number for leads: ${whatsapp}`,
+        reference ? `Reference website: ${reference}` : "Reference website: Not provided",
+        "",
+        `Source: ${getPageLabel()}`,
+        `Time: ${nowStamp()}`,
+      ];
+
+      redirectToWhatsApp(lines.join("\n"));
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initYear();
     initMobileNav();
     initReveal();
     initWhatsAppCTAs();
     initLeadForm();
+    initWebsiteBuildForm();
   });
 })();
-
